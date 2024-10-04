@@ -5,10 +5,6 @@ class HolbertonCourse {
     this._students = students;
   }
 
-  /**
-   * @param {String} name
-   */
-
   set name(name) {
     if (typeof (name) !== 'string') {
       throw new TypeError('Name must be a string');
@@ -32,9 +28,6 @@ class HolbertonCourse {
     return this._length;
   }
 
-  /**
-   * @param {Array} students
-   */
   set students(students) {
     if (students instanceof Array) {
       this._students = students;
