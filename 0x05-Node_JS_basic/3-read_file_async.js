@@ -1,27 +1,29 @@
 const fs = require('fs');
+const csv = require('csv-parser');
 
-function countStudents (path) {
-  const promise = (res, rej) => {
-    fs.readFile(path, (err, data) => {
-      if (err) rej(Error('Cannot load the database'));
-      if (data) {
-        let myData = data.toString().split('\n');
-        myData = myData.slice(1, myData.length - 1);
-        console.log(`Number of students: ${myData.length}`);
-        const obj = {};
-        myData.forEach((el) => {
-          const student = el.split(',');
-          if (!obj[student[3]]) obj[student[3]] = [];
-          obj[student[3]].push(student[0]);
-        });
-        for (const cls in obj) {
-          if (cls) console.log(`Number of students in ${cls}: ${obj[cls].length}. List: ${obj[cls].join(', ')}`);
-        }
+const students = [];
+const cs = [];
+const swe = [];
+
+const countStudents = (file) => {
+  if (!fs.existsSync(file)) {
+    throw new Error('Cannot load the database');
+  }
+  fs.createReadStream(file)
+    .pipe(csv())
+    .on('data', (row) => {
+      students.push(row);
+      if (row.field === 'CS') {
+        cs.push(row.firstname);
+      } else {
+        swe.push(row.firstname);
       }
-      res();
+    })
+    .on('end', () => {
+      console.log(`Number of students: ${students.length}`);
+      console.log(`Number of students in CS: ${cs.length}. List: ${cs.join(', ')}`);
+      console.log(`Number of students in SWE: ${swe.length}. List: ${swe.join(', ')}`);
     });
-  };
-  return new Promise(promise);
-}
+};
 
 module.exports = countStudents;
