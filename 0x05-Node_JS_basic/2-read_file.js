@@ -24,8 +24,8 @@ const countStudents = (file) => {
     }
   });
   console.log(`Number of students: ${students.length - 1}`);
-  console.log(`Number of students in CS: ${cs.length}. List: ${cs}`);
-  console.log(`Number of students in swe: ${swe.length}. List: ${swe}`);
+  console.log(`Number of students in CS: ${cs.length}. List: ${cs.join(', ')}`);
+  console.log(`Number of students in swe: ${swe.length}. List: ${swe.join(', ')}`);
 };
 
 module.exports = countStudents;
