@@ -1,1 +1,1 @@
-## Array, Typed Array, Set, Map and weakMap
+### data manipulation in JS
