@@ -1,6 +1,6 @@
-### data manipulation in JS
+## data manipulation in JS
 
-## Resources
+### Resources
 
 1. [MDN Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
 
