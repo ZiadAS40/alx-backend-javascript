@@ -1,29 +1,34 @@
 const fs = require('fs');
-const csv = require('csv-parser');
 
-const students = [];
-const cs = [];
-const swe = [];
-
-const countStudents = (file) => {
-  if (!fs.existsSync(file)) {
-    throw new Error('Cannot load the database');
-  }
-  fs.createReadStream(file)
-    .pipe(csv())
-    .on('data', (row) => {
-      students.push(row);
-      if (row.field === 'CS') {
-        cs.push(row.firstname);
-      } else {
-        swe.push(row.firstname);
+module.exports = function countStudents(path) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, 'utf-8', (err, fileContent) => {
+      if (err) {
+        reject(new Error('Cannot load the database'));
       }
-    })
-    .on('end', () => {
-      console.log(`Number of students: ${students.length}`);
-      console.log(`Number of students in CS: ${cs.length}. List: ${cs.join(', ')}`);
-      console.log(`Number of students in SWE: ${swe.length}. List: ${swe.join(', ')}`);
-    });
-};
 
-module.exports = countStudents;
+      if (fileContent) {
+        const lines = fileContent.split('\n');
+        lines.shift();
+        const fields = {};
+
+        for (const line of lines) {
+          const parsedLine = line.split(',');
+          const lineField = parsedLine[parsedLine.length - 1];
+          const firstName = parsedLine[0];
+
+          if (!(Array.isArray(fields[lineField]))) fields[lineField] = [];
+
+          fields[lineField].push(firstName);
+        }
+
+        console.log(`Number of students: ${lines.length}`);
+
+        for (const [key, value] of Object.entries(fields)) {
+          console.log(`Number of students in ${key}: ${value.length}. List: ${value.join(', ')}`);
+        }
+        resolve({});
+      }
+    });
+  });
+};
