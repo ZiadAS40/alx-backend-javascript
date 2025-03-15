@@ -1,5 +1,5 @@
 process.stdin.on('data', (data) => {
-  process.stdout.write(`your nameYour name is: ${data}`);
+  process.stdout.write(`Your name is: ${data}`);
 });
 
 process.stdin.on('end', () => {
