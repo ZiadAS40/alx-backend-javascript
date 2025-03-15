@@ -22,10 +22,10 @@ module.exports = function countStudents(path) {
           fields[lineField].push(firstName);
         }
 
-        console.log(`Number of students: ${lines.length}`);
+        process.stdout.write(`Number of students: ${lines.length}\n`);
 
         for (const [key, value] of Object.entries(fields)) {
-          console.log(`Number of students in ${key}: ${value.length}. List: ${value.join(', ')}`);
+          process.stdout.write(`Number of students in ${key}: ${value.length}. List: ${value.join(', ')}\n`);
         }
         resolve({});
       }
